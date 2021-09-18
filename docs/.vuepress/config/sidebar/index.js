@@ -33,6 +33,7 @@ module.exports = {
             collapsable: true,
             children: [
                 'essay/你好世界',
+                'essay/归档2020',
                 
             ]
         }
