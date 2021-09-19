@@ -3,8 +3,9 @@ home: true
 heroImage: '/vuepress/kangna.png'
 # faceImage: '/vuepress/head.png'
 heroImageStyle: {
-  maxWidth: '245px',
-  width: '100%',
+  maxWidth: '50%',
+  # width: '100%',
+  maxHeight: 250px,
   display: block,
   margin: '2% auto 2% auto',
   //border: '1px dashed #000',
