@@ -5,7 +5,7 @@ sidebar: false
 isShowComments: true
 ---
 
-<p align="center"><img style="border-radius:41%;pointer-events:none;transform: scale(0.9);" :src="$withBase('/vuepress/kangna.png')" alt="znote-head" width=160></p>
+<p align="center"><img style="border-radius:41%;pointer-events:none;transform: scale(0.9);" :src="$withBase('/vuepress/kangna.png')"  width=160></p>
 <p align="center" style="margin-top: -15px;">
  
   

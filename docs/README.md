@@ -1,15 +1,15 @@
 ---
 home: true
-# heroImage: '/vuepress/kangna.png'
+heroImage: '/vuepress/kangna.png'
 # faceImage: '/vuepress/head.png'
 heroImageStyle: {
-  maxWidth: '680px',
+  maxWidth: '245px',
   width: '100%',
   display: block,
-  margin: '14% auto -16% auto',
+  margin: '2% auto 2% auto',
   //border: '1px dashed #000',
   box-shadow: '8px 8px 20px #022',
-  borderRadius: '10px',
+  borderRadius: '80px',
 }
 isShowTitleInHome: true
 actionText: '开启进阶之路'
@@ -38,7 +38,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
   padding: 0 !important;
 }
 .home .hero h1 {
-    display: none;
+    /* display: none; */
 }
 .home img {
    transform: scale(0.8,0.8) !important;
