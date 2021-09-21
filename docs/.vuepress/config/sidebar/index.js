@@ -24,7 +24,7 @@ module.exports = {
             title: '后端 Back-end',
             collapsable: true,
             children: [
-                'backend/ArrayList',
+                'backend/ngnix和gateway搭配使用',
         
             ]
         },
