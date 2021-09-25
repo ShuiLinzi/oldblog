@@ -34,6 +34,7 @@ module.exports = {
             children: [
                 'essay/你好世界',
                 'essay/归档2020',
+                'essay/bootDeploy',
                 
             ]
         }
