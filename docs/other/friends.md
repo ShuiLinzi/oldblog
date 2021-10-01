@@ -15,7 +15,12 @@ isShowComments: false
 
 ::: cardList 2
 ```yaml
-
+- name: 凛  
+  link: https://shuilinzi.github.io/blog/
+  avatar: https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/头像/康娜.png 
+  desc: 勇敢不是不害怕，而是害怕的时候你还能坚持去做
+  bgColor: 'rgb(157 156 186)'
+  textColor: 'rgb(252 249 247)'
 - name: 站位等待中...
   link: 
   avatar: 

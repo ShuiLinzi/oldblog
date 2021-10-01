@@ -25,6 +25,7 @@ module.exports = {
             collapsable: true,
             children: [
                 'backend/ngnix和gateway搭配使用',
+                'backend/bootDeploy'
         
             ]
         },
@@ -34,7 +35,16 @@ module.exports = {
             children: [
                 'essay/你好世界',
                 'essay/归档2020',
-                'essay/bootDeploy',
+               
+                
+            ]
+        },
+        {
+            title: '工具',
+            collapsable: true,
+            children: [
+                'essay/图床',
+                
                 
             ]
         }
