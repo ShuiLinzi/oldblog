@@ -25,7 +25,8 @@ module.exports = {
             collapsable: true,
             children: [
                 'backend/ngnix和gateway搭配使用',
-                'backend/bootDeploy'
+                'backend/bootDeploy',
+                'backend/redis'
         
             ]
         },
