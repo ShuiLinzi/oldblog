@@ -41,6 +41,15 @@ module.exports = {
             ]
         },
         {
+            title: '读书',
+            collapsable: true,
+            children: [
+                'book/富爸爸穷爸爸',
+                
+                
+            ]
+        },
+        {
             title: '工具',
             collapsable: true,
             children: [
