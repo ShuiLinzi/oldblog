@@ -45,6 +45,7 @@ module.exports = {
             collapsable: true,
             children: [
                 'book/富爸爸穷爸爸',
+                'book/被讨厌的勇气',
                 
                 
             ]
