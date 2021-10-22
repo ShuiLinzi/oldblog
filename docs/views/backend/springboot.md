@@ -87,6 +87,114 @@ public class OrderWebConfiguration  {
 
 ```
   
+## 内容协商(@ResponseBody)
+springMVC可以根据客户端接收能力的不同，返回不同媒体类型的数据
+### 引入xml依赖
+```XML
+ <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+### postman分别测试返回json和xml数据
+只需要改变请求头Accept的字段，HTTP协议规定，告诉服务器本客户端可以接受的数据类型
+
+### 内容协商原理
+- 1、判断当前响应头中是否已经有确定的媒体类型。MediaType
+- 2、获取客户端（PostMan、浏览器）支持接收的内容类型。（获取客户端Accept请求头字段）【application/xml】
+  - contentNegotiationManager 内容协商管理器 默认使用基于请求头的策略
+  - HeaderContentNegotiationStrategy  确定客户端可以接收的内容类型 
+- 3、遍历循环所有当前系统的 MessageConverter，看谁支持操作这个对象(Person对象)
+- 4、找到支持操作Person的converter，把converter支持的媒体类型统计出来。
+- 5、客户端需要【application/xml】。服务端能力【10种、json、xml】   
+- 6、进行内容协商的最佳匹配媒体类型
+- 7、用支持将对象转为最佳匹配媒体类型的converter，调用它进行转化
+
+### 开启浏览器参数方式内容协商功能
+```yaml
+spring:
+    contentnegotiation:
+      favor-parameter: true  #开启请求参数内容协商模式
+```
+发请求： http://localhost:8080/test/person?format=json，转成json类型的数据，
+http://localhost:8080/test/person?format=xml，转成xml类型的数据，开启之后会根据请求里面的format参数自动转成所需要的类型
+
+### 自定义MessageConverter(自定义内容协商)
+在webMvcConfigurer中配置即可
+```java
+ @Bean
+    public WebMvcConfigurer webMvcConfigurer(){
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+            }
+        }
+    }
+```
+
+## 拦截器
+### HandlerInterceptor接口
+实现拦截器的两个步骤
+1. 编写一个拦截器HandlerInterceptor接口
+2. 拦截器注册到容器中(实现WebMvcConfigurer的addInterceptors)
+3. 指定拦截规则(如果是拦截所有，静态资源也会被拦截)
+```java
+/**
+ * 登录检查
+ * 1、配置好拦截器要拦截哪些请求
+ * 2、把这些配置放在容器中
+ */
+@Slf4j
+public class LoginInterceptor implements HandlerInterceptor {
+
+    /**
+     * 目标方法执行之前
+     */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        String requestURI = request.getRequestURI();
+        log.info("preHandle拦截的请求路径是{}",requestURI);
+
+        //登录检查逻辑
+        HttpSession session = request.getSession();
+
+        Object loginUser = session.getAttribute("loginUser");
+
+        if(loginUser != null){
+            //放行
+            return true;
+        }
+
+        //拦截住。未登录。跳转到登录页
+        request.setAttribute("msg","请先登录");
+//        re.sendRedirect("/");
+        request.getRequestDispatcher("/").forward(request,response);
+        return false;
+    }
+
+    /**
+     * 目标方法执行完成以后
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        
+    }
+
+    /**
+     * 页面渲染以后
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        
+    }
+}
+```
+- 拦截器执行的流程图<br>
+
+![拦截器执行流程](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/拦截器执行流程.png)
 
 
 ## 文档
