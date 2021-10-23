@@ -196,6 +196,37 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 ![拦截器执行流程](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/拦截器执行流程.png)
 
+## 异常处理
+### 定制错误处理
+- 自定义错误页
+  - error/404.html   error/5xx.html；有精确的错误状态码页面就匹配精确，没有就找 4xx.html；如果都没有就触发白页
+- @ControllerAdvice+@ExceptionHandler处理全局异常；底层是ExceptionHandlerExceptionResolver支持的
+```java
+//统一异常处理类
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public ResultData error(Exception e){// 统一异常的通用处理
+        e.printStackTrace();
+        return ResultData.error();
+    }
 
-## 文档
+    @ResponseBody
+    @ExceptionHandler(GuliException.class)// 自定义异常处理,自定义GuliException
+    public ResultData error(GuliException e){
+        e.printStackTrace();
+        return ResultData.error().code(e.getCode()).message(e.getMsg());
+    }
+}
+```
+
+## Web原生组件注入(Servlet、Filter、Listener)
+### 使用Servlet API
+在主启动类上加@ServletComponentScan(basePackages = "com.atguigu.admin") :指定原生Servlet组件都放在那里，然后在对应的类上加不同的注解，<br>
+@WebServlet(urlPatterns = "/my")：效果：直接响应，**没有经过Spring的拦截器**<br>
+@WebFilter(urlPatterns="/css/*")<br> 
+@WebListener<br>
+
+## 参考文档
 [雷神手敲笔记](https://www.yuque.com/atguigu/springboot)
