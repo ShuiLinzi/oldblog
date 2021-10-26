@@ -26,7 +26,8 @@ module.exports = {
             children: [
                 'backend/ngnix和gateway搭配使用',
                 'backend/bootDeploy',
-                'backend/redis'
+                'backend/redis',
+                'backend/springboot'
         
             ]
         },

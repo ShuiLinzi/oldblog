@@ -1,11 +1,12 @@
 ---
 title: 重刷springboot(雷神) 学习笔记
-data: 2021-10-19
+date: 2021-10-19
 tags: 
 - Java
 categories:
 - "后端"
 ---
+[[toc]]
 spring boot脑海里面已经记不得什么时候学的了，重刷这门课的时候之前也对着视频写了不少项目了，刷完谷粒商城这个大项目之后，突然觉得自己有必要回过头来重新学学boot了，而且最近有些许迷茫，具体的会在其他博客总结，总之不要让自己停下来，本文不是把所有的知识笔记一点一点的从头记录，而是查漏补缺，把常用而自己记得不太清楚的记下来
 <!-- more -->
 ## @ConfigurationProperties
@@ -137,8 +138,8 @@ http://localhost:8080/test/person?format=xml，转成xml类型的数据，开启
 ## 拦截器
 ### HandlerInterceptor接口
 实现拦截器的两个步骤
-1. 编写一个拦截器HandlerInterceptor接口
-2. 拦截器注册到容器中(实现WebMvcConfigurer的addInterceptors)
+1. 编写一个拦截器HandlerInterceptor接口，**Interceptor是spring家定义的接口，可以实现自动注入@Autowired**
+2. 拦截器注册到容器中(实现WebMvcConfigurer的addInterceptors,addInterceptors的时候可以new一个，也可以Autowired一个然后自动注入)
 3. 指定拦截规则(如果是拦截所有，静态资源也会被拦截)
 ```java
 /**
@@ -227,6 +228,18 @@ public class GlobalExceptionHandler {
 @WebServlet(urlPatterns = "/my")：效果：直接响应，**没有经过Spring的拦截器**<br>
 @WebFilter(urlPatterns="/css/*")<br> 
 @WebListener<br>
+
+## MyBatis-Plus分页查询
+Page继承了Ipage 
+
+## Profile功能
+为了方便多环境适配，spring boot简化了profile功能
+- 默认配置文件 application.yaml;任何时候都会加载
+- 指定环境配置文件 application-{生产环境}.yaml 
+- 激活指定环境
+  - 配置文件激活
+  - 命令行激活: java -jar xxx.jar --spring.profiles.active=prod(可以任意修改)
+使用此功能，打包的时候使用不同的生产环境，开发时用测试环境，打包时用生产环境
 
 ## 参考文档
 [雷神手敲笔记](https://www.yuque.com/atguigu/springboot)
