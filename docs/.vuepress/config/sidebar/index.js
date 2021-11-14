@@ -32,6 +32,15 @@ module.exports = {
             ]
         },
         {
+            title: '数据结构和算法',
+            collapsable: true,
+            children: [
+                '数据结构/并查集',
+                
+        
+            ]
+        },
+        {
             title: '随笔 Essay',
             collapsable: true,
             children: [
