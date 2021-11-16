@@ -36,6 +36,7 @@ module.exports = {
             collapsable: true,
             children: [
                 '数据结构/并查集',
+                '数据结构/前缀树',
                 
         
             ]
