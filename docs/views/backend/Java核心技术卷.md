@@ -69,3 +69,18 @@ public class Math{
 流。你可能会感到奇怪，为什么这个方法可以修改final变量的值。原因在于， setout
 方法是一个**原生**方法，而不是在Java语言中实现的。原生方法可以绕过Java语言的
 访问控制机制。这是一种特殊的解决方法，你自己编写程序时不要模仿这种做法。
+抽象类：abstract，抽象类用abstract定义，表示不能被实例的对象，只能被继承，抽象类里面的抽象方法不能被直接调用，需要其子类实现之后才能调用，而抽象方法充当着占位方法的角色，它们在子类中具体实现，拓展抽象类可以有两种选择。一种是在子类中保留抽象类中的部分或者所有抽象方法未定义，这样就必须将子类也标为抽象类；另一种做法是定义全部方法，这样一来，子类就不是抽象的了
+
+抽象方法的一种应用
+```java
+    var people = new Person[2];//var变量，在jdk10以后投入使用
+    people[0] = new Employee(...);
+    people[1] = new Student(...);
+
+    for(Peoson p : people){
+        System.out.println(p.getName()+", "+p.getDescription());
+    }
+```
+有人可能对下面这个调用感到困惑：
+p.getDescription()
+这不是调用了一个没有定义的方法吗？请牢记，用于不能构造抽象类Person的对象，所以变量p永远不会引用Person对象，而是引用诸如Employee或者Student这样的具体子类的对象，而这些对象都定义了getDescription方法。
