@@ -84,3 +84,23 @@ public class Math{
 有人可能对下面这个调用感到困惑：
 p.getDescription()
 这不是调用了一个没有定义的方法吗？请牢记，用于不能构造抽象类Person的对象，所以变量p永远不会引用Person对象，而是引用诸如Employee或者Student这样的具体子类的对象，而这些对象都定义了getDescription方法。
+
+## lambda表达式
+1.使用->表示，最简单的lambda表达式
+(String first,String second) -> first.length() - second.length()
+2.如果代码要完成的计算无法放在一个表达式中，就可以像写方法一样，把这些代码放在{}中，并包含显示的return语句。
+3.即使lambda表达式没有参数，仍要提供空括号，就像无参数方法一样：
+() -> {for(int i = 100; i>=0; i--) System.out.println(i);}
+4.如果可以推导出一个lambda表达式的参数类型，则可以忽略其类型
+5.如果方法只有一个参数，而且这个参数的类型可以推导出，那么甚至可以省略小括号
+6.无需指定lambda表达式的返回类型。lambda表达式的返回类型总是由上下文推导得出
+
+## 方法引用
+闭包：lambda表达式能捕获方法之外的变量，但是其必须是事实最终变量。事实最终变量是指，这个变量初始化之后就不会再为他赋新值
+
+## Exception
+Java语音规范将派生于Error类或RuntimeException类的所有异常成为非检查型(unchecked)异常，所有其他的异常称为检查型(checked)异常。
+![异常分支](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/异常分支.webp)
+总之，一个方法必须声明所有可能抛出的检查型异常，而非检查型异常要么在你的控制之外(Error),要么是由从一开始就应该避免的情况所导致的(RuntimeException)。如果你的方法没有声明所有可能发生的检查型异常，编译器就会发出一个错误消息
+
+一般经验是，要捕获那些你知道如何处理的异常，而继续传播那些你不知道怎样处理的异常
