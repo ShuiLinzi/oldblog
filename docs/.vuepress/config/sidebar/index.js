@@ -13,6 +13,15 @@ module.exports = {
             ]
         },
         {
+            title: '操作系统',
+            collapsable: true,
+            children: [
+                'backend/linux',
+             
+              
+            ]
+        },
+        {
             title: '前端 Front-end',
             collapsable: true,
             children: [
@@ -51,6 +60,7 @@ module.exports = {
                 'essay/你好世界',
                 'essay/归档2020',
                 'essay/10月总结',
+                'essay/迷茫',
                
                 
             ]
@@ -61,6 +71,7 @@ module.exports = {
             children: [
                 'book/富爸爸穷爸爸',
                 'book/被讨厌的勇气',
+                'book/Java核心技术卷知识'
                 
                 
             ]
