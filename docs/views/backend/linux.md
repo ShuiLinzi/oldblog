@@ -115,3 +115,25 @@ ls -l中显示的内容如下
 7. 修改权限 chmod
    - 第一种方式：+，-，=变更权限 u所拥有者，g所拥有组 o其他人 a所有人
       - chmod u=rwx，g=rx，o=x 文件/目录
+## crond任务调度
+crond 进行定时任务的设置，任务调度是指系统在某个时间执行的特定的命令或者程序
+
+任务调度分类：系统工作或者个别用户工作
+
+基本语法：crontab [选项]
+
+常用选项：-e 编辑crontab定时任务 -l 查询crontab定时任务 -r删除当前用户所有的crontab定时任务
+具体应用
+定时任务的时间表达式，五个占位符
+![占位符](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/占位符.jpg)
+## at定时任务
+- 基本介绍
+1. at命令是一次性定时计划任务，at的守护进程atd会以后台模式运行，检查作业队列来运行。
+2. 默认情况下，atd守护进程每60s检查作业队列，有作业时，会检查作业运行时间，如果时间与当前时间匹配，则运行此作业
+3. at命令是一次性定时计划任务，执行完一个任务后不再执行此任务了
+4. 在使用at命令的时候，一定要保证atd进程的启动，可以使用相关指令来查看，ps -ef | grep atd //可以检测atd是否在后台运行
+- at命令格式
+at [选项] [时间] Ctrl + D 结束at命令的输入
+![at命令选项](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/at命令选项.jpg)
+atq命令来查看系统中有没有执行的工作任务
+atrm删除已经设置好的任务 atrm [编号]
