@@ -25,7 +25,7 @@ module.exports = {
             title: '前端 Front-end',
             collapsable: true,
             children: [
-                'frontend/EChartsStudy',
+                
               
             ]
         },
@@ -36,8 +36,8 @@ module.exports = {
                 'backend/ngnix和gateway搭配使用',
                 'backend/bootDeploy',
                 'backend/redis',
-                'backend/springboot'
-        
+                'backend/springboot',
+                'backend/Java核心技术卷',
             ]
         },
         {
@@ -71,7 +71,7 @@ module.exports = {
             children: [
                 'book/富爸爸穷爸爸',
                 'book/被讨厌的勇气',
-                'book/Java核心技术卷知识'
+                
                 
                 
             ]

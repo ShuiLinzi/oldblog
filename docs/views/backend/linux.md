@@ -155,3 +155,101 @@ atrm删除已经设置好的任务 atrm [编号]
    - 卸载挂载 umount [分区目录]/[挂载目录](二选一)
    - *注意：用命令行挂载，重启后会失效*
 - 设置可以自动挂载
+  - 永久挂载：通过修改/etc/fstab实现挂载
+  - 添加完成后，执行mount -a即可生效
+## 磁盘情况查询
+- df -h 查看磁盘分区使用情况
+- 查询指定目录磁盘占用情况
+   - du -h 查询指定目录磁盘占用情况，默认为当前目录
+   - -s 指定目录占用大小汇总
+   - -h 带计量单位
+   - -a 含文件
+   - --max-depth=1 子目录深度
+   - -c 列出明细的同时，增加汇总值
+
+## Linux网络配置原理
+### NAT网络配置
+![添加硬盘](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/添加硬盘.webp)
+### 查看虚拟网络编辑器和修改IP地址
+- 查看Windows环境中的VMnet8网络配置:ipconfig
+- 查看Linux网络配置:ifconfig
+### linux网络环境配置
+- 第一种方式(自动获取)：登陆后，通过节目来设置自动获取ip，特点：Linux每次启动后会自动获取IP，缺点：每次自动获取的ip地址可能不一样
+- 第二种方式(指定ip)：直接修改配置文件来指定IP，并且可以连接到外网
+  - 编辑 vim /etc/sysconfig/network-scripts/ifcfg-ens33，要求：将ip地址配置为静态的
+![默认网络设置](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/默认网络设置.webp)
+![修改之后网络设置](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/修改之后网络设置.webp)
+
+**注意：图片里面的应为GATEWAY，不是GATEWAT坑了自己一把(lll￢ω￢)**
+
+![修改虚拟网卡](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/修改虚拟网卡.webp)
+
+## 设置主机名和hosts映射
+### 设置hosts映射
+- Windows: 在C盘下的一个目录文件里面指定即可，案例： 192.168.200.130 linuxLearn
+- Linux: 在/etc/hosts 文件指定，案例： 192.168.200.1 xxx
+### 主机名解析过程分析(Hosts、DNS)
+1. Hosts是什么
+一个文本文件，用来记录IP和Hostname(主机名)的映射关系
+2. DNS是什么
+   - DNS，是Domain Name System的缩写，翻译过来就是域名系统
+   - 是互联网上作为域名和IP地址相互映射的一个分布式数据库
+## 显示系统执行的进程
+### 基本介绍
+ps命令是用来查看系统中，有哪些正在执行，以及他们的执行状况，可以不加任何参数
+- ps -a显示当前终端的所有进程信息
+- ps -u以用户的格式显示进程信息
+- ps -x显示后台进程运行的参数
+![进程详解](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/进程详解.webp)
+- ps -ef是以全格式显示当前所有的进程
+- -e 显示所有进程 -f 全格式
+![参数解释](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/参数解释.webp)
+### 终止进程kill和killall
+kill [选项] 进程号 ：通过进程号杀死进程
+kill all 进程名称 ： 通过进程名称杀死进程，支持通配符，这在系统因负载过大而变得很慢时很有用
+kill -9 进程号 ：表示强迫进程立即停止
+pstree 以树状的形式显示进程号
+## 服务(service)管理
+### 介绍
+服务本质就是进程，但是是运行在后台的，通常都会监听某个端口，等待其他程序的请求，比如(mysqld,sshd,防火墙等)，因此我们也称为守护进程
+### service管理指令
+1. service服务名 [start|stop|restart|reload|status]
+2. 在CentOS7.0以后，很多服务不再使用service，而是systemctl
+3. service指令管理的服务在/etc/init.d 查看
+### 服务的运行级别(runlevel):
+Linux系统有七种运行级别：<font color=red >常用的级别3和5</font>
+- 运行级別0:系统停机状态。系统默认运行级别不能设为0,否则不能正常启动
+
+- 运行级别1:单用户工作状态，root权限，用于系统维护，禁止远程登陆
+- 运行级别2:多用户状态(没有NFS),不支持网络
+- 运行级别3:完全的多用户状态(有NFS),无界面，登陆后进入控制台命令行模式
+- 运行级别4:系统未使用，保留
+- 运行级别5:X11控制台，登陆后进入图形GUI模式
+- 运行级別6:系统正常关闭并重启，默认运行级別不能设为6,否则不能正常启动
+
+systemctl get-default 获取当前运行级别
+systemctl set-default xxx 设置运行级别
+### 开机流程          
+![开机流程](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/开机流程.webp)
+### systemctl管理指令
+- 基本语法：systemctl [start|stop|restart|status]服务名
+
+- systemctl指令管理的服务在/usr/lib/systemd/ststem 查看
+- systemctl设置服务的自启动状态
+  - systemctl list-unit-files (查看服务开机启动状态，可以使用grep进行过滤)
+  - systemctl enable 服务名(设置服务开机启动)
+  - systemctl disable 服务名 (关闭服务开机启动)
+  
+  - systemctl is-enabled 服务名 (查询某个服务是否是自启动的)
+- <font color =#8600FF>使用案例：查看当前防火墙的状况，关闭防火墙和重启防火墙</font>
+  - 查看当前防火墙状况：systemctl status firewalled
+  
+  - 关闭/打开防火墙：systemctl stop/start firewalld
+### firewall相关指令
+在真正的生产环境，往往需要将防火墙打开，但是如果我们把防火墙打开，那么外部请求数据包就不能跟服务器监听端口通讯，此时需要打开指定端口
+- firewall指令
+  - netstat -anp 可以查看相关端口号和协议
+  - 打开端口：firewall-cmd --permanent --add-port=端口号/协议
+  - 关闭端口：firewall-cmd --premanent --remove-port=端口号/协议
+  - 重新载入：firewall-cmd --reload
+  - 查询端口是否开放：firewall-cmd --query-port=端口/协议

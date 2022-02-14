@@ -23,7 +23,7 @@ git commit -m 'deploy'
 #git push -f git@github.com:zpj80231/zpj80231.github.io.git gh-pages
 #git push origin :gh-pages
 
-git push -f git@github.com:shuilinzi/blog.git master:gh-pages
+git push -f git@github.com:ShuiLinzi/blog.git master:gh-pages
 
 # cd ..
 # #git init
