@@ -253,3 +253,33 @@ systemctl set-default xxx 设置运行级别
   - 关闭端口：firewall-cmd --premanent --remove-port=端口号/协议
   - 重新载入：firewall-cmd --reload
   - 查询端口是否开放：firewall-cmd --query-port=端口/协议
+### 监控网络状态
+- 查看系统网络情况netstat
+## rpm包的管理
+- rpm -qa 查询所安装的所有rpm软件包
+- rpm -q 软件包名，查询软件包是否安装
+- rpm -qi 软件包名 查询软件包信息
+- rpm -ql 软件包名 查询软件包的文件
+- rpm -qf 文件全路径名 查询文件所属的软件包
+- rpm -e 软件名，删除软件
+- rpm -ivh(i=install 安装;v=verbose 提示;h=hash 进度条) RPM包全路径名称
+
+### yum
+- yum list 列出所有能安装的软件目录
+- yum install xxx 下载安装
+
+## Shell
+Shell是一个命令行解释器，他为用户提供了一个向Linux内核发送请求以便运行程序的界面系统程序，用户可以用Shell来启动，挂起，停止甚至是编写一些程序
+### Shell脚本的执行方式
+- 脚本格式要求
+  - 脚本以#/bin/bash开头
+  - 脚本需要有可执行权限
+- 脚本常用的执行方式
+  - 方式一：输入脚本的相对路径或者绝对路径，说明：首先要赋予helloworld.sh脚本 +x 权限，再执行脚本
+  - 方式二：sh+脚本，不用赋予脚本 +x权限，直接执行即可
+### Shell变量
+- Shell变量介绍
+  - Linux Shell中的变量分为：系统变量和用户自定义变量
+  - 系统变量：$HOME,$PWD,$SHELL等等
+  - 显示当前shell中所有变量:set
+- 
