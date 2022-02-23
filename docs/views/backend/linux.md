@@ -282,4 +282,6 @@ Shell是一个命令行解释器，他为用户提供了一个向Linux内核发�
   - Linux Shell中的变量分为：系统变量和用户自定义变量
   - 系统变量：$HOME,$PWD,$SHELL等等
   - 显示当前shell中所有变量:set
-- 
+## webmin可视化工具
+### 基本介绍
+Webmin是功能强大的基于Web的Unix/Linux系统管理工具。管理员通过浏览器访问Webmin的各种管理功能并完成相应的管理操作。
