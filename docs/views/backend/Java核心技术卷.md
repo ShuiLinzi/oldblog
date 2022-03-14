@@ -395,3 +395,8 @@ Set entry = map.entrySet();
 //然后随意遍历，任君发挥
 Iterator iterator =  entry.iterator();
 ```
+
+## IO流
+创建File类的实例
+- File file = new File(String filePath)
+- 各种api的调用
