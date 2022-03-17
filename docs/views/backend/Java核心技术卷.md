@@ -397,6 +397,319 @@ Iterator iterator =  entry.iterator();
 ```
 
 ## IO流
-创建File类的实例
-- File file = new File(String filePath)
-- 各种api的调用
+### File类
+创建File类的实例：
+1、 public File(String pathname) ：通过将给定的路径名字符串转换为抽象路径名来创建新的 File实例。
+2、 public File(String parent, String child) ：从父路径名字符串和子路径名字符串创建新的 File实例。
+3、 public File(File parent, String child) ：从父抽象路径名和子路径名字符串创建新的 File实例。
+
+### 流的分类
+- 按操作数据单位不同分为：字节流(InputStream,OutStream)，字符流(Read,Writer)
+- 按照数据流的流向不同分为：输入流，输出流
+- 按流的角色不同分为：节点流，处理流
+
+|        | 输入流              | 输出流               |
+| ------ | ---------------------- | ----------------------- |
+| 字节流 | 字节输入流 InputStream | 字节输出流 OutputStream |
+| 字符流 | 字符输入流 Reader | 字符输出流 Writer  |
+![流](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/算法/流.webp)
+
+### 字节输出流（OutputStream）
+字节输出流的基本共性功能方法:
+- 1、 public void close() ：关闭此输出流并释放与此流相关联的任何系统资源。
+- 2、 public void flush() ：刷新此输出流并强制任何缓冲的输出字节被写出。
+- 3、 public void write(byte[] b)：将 b.length个字节从指定的字节数组写入此输出流。
+- 4、 public void write(byte[] b, int off, int len) ：从指定的字节数组写入 len字节，从偏移量 off开始输出到此输出流。 也就是说从off个字节数开始读取一直到len个字节结束
+- 5、 public abstract void write(int b) ：将指定的字节输出流。
+
+**以上五个方法则是字节输出流都具有的方法，由父类OutputStream定义提供，子类都会共享以上方法**
+
+#### FileOutputStream类
+OutputStream有很多子类，我们从最简单的一个子类FileOutputStream开始。看名字就知道是文件输出流，用于将数据写出到文件。
+构造方法:
+- 1、 public FileOutputStream(File file)：根据File对象为参数创建对象。
+- 2、 public FileOutputStream(String name)： 根据名称字符串为参数创建对象。
+- 3、public FileOutputStream(File file, boolean append)
+- 4、public FileOutputStream(String name, boolean append)
+
+
+这两个构造方法，第二个参数中都需要传入一个boolean类型的值，true 表示追加数据，false 表示不追加也就是清空原有数据。这样创建的输出流对象，就可以指定是否追加续写了，至于Windows换行则是 \n\r ，下面将会详细讲到。
+#### FileOutputStream写出字节数据
+```java
+public void write(int b)
+public void write(byte[] b)
+public void write(byte[] b,int off,int len)  //从`off`索引开始，`len`个字节
+
+```
+###  字节输入流（InputStream）
+字节输入流的基本共性功能方法:
+- 1、 public void close() ：关闭此输入流并释放与此流相关联的任何系统资源。
+- 2、public abstract int read()： 从输入流读取数据的下一个字节。
+- 3、 public int read(byte[] b)： 该方法返回的int值代表的是读取了多少个字节，读到几个返回几个，读取不到返回-1
+
+#### FileInputStream读取字节数据
+1.读取字节：read方法，每次可以读取一个字节的数据，提升为int类型，读取到文件末尾，返回-1
+```java
+public class FISRead {
+    public static void main(String[] args) throws IOException{
+      	// 使用文件名称创建流对象
+       	FileInputStream fis = new FileInputStream("read.txt");
+      	// 定义变量，保存数据
+        int b ；
+        // 循环读取
+        while ((b = fis.read())!=-1) {
+            System.out.println((char)b);
+        }
+		// 关闭资源
+        fis.close();
+    }
+}
+```
+2.使用字节数组读取：read(byte[] b)，每次读取b的长度个字节到数组中，返回读取到的有效字节个数，读取到末尾时，返回-1 ，代码使用演示：
+```java
+public class FISRead {
+    public static void main(String[] args) throws IOException{
+      	// 使用文件名称创建流对象.
+       	FileInputStream fis = new FileInputStream("read.txt"); // read.txt文件中内容为abcde
+      	// 定义变量，作为有效个数
+        int len ；
+        // 定义字节数组，作为装字节数据的容器   
+        byte[] b = new byte[2];
+        // 循环读取
+        while (( len= fis.read(b))!=-1) {
+           	// 每次读取后,把数组变成字符串打印
+            System.out.println(new String(b));
+        }
+		// 关闭资源
+        fis.close();
+    }
+}
+
+输出结果：
+ab
+cd
+ed
+```
+在开发中一般强烈推荐使用数组读取文件，代码如下：
+```java
+package io;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class input2 {
+    public static void main(String args[]){
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream("a.txt");
+            int len = 0 ;
+            byte[] bys = new byte[1024];
+            while ((len = inputStream.read(bys)) != -1) {
+                System.out.println(new String(bys,0,len));
+            }
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+```
+
+复制图片文件，代码如下：
+```java
+public class Copy {
+    public static void main(String[] args) throws IOException {
+        // 1.创建流对象
+        // 1.1 指定数据源
+        FileInputStream fis = new FileInputStream("D:\\test.jpg");
+        // 1.2 指定目的地
+        FileOutputStream fos = new FileOutputStream("test_copy.jpg");
+
+        // 2.读写数据
+        // 2.1 定义数组
+        byte[] b = new byte[1024];
+        // 2.2 定义长度
+        int len;
+        // 2.3 循环读取
+        while ((len = fis.read(b))!=-1) {
+            // 2.4 写出数据
+            fos.write(b, 0 , len);
+        }
+
+        // 3.关闭资源
+        fos.close();
+        fis.close();
+    }
+}
+
+```
+### 字符输入流（Reader）、字符输出流（Writer）
+对txt等文本文件进行处理，方法和上面差不多，但是不能对视频音频等文件进行操作
+
+## 缓冲流
+缓冲流,也叫高效流，是对4个FileXxx 流的“增强流”。
+**缓冲流的基本原理：**
+
+- 1、使用了底层流对象从具体设备上获取数据，并将数据存储到缓冲区的数组内。
+- 2、通过缓冲区的read()方法从缓冲区获取具体的字符数据，这样就提高了效率。
+- 3、如果用read方法读取字符数据，并存储到另一个容器中，直到读取到了换行符时，将另一个容器临时存储的数据转成字符串返回，就形成了readLine()功能。
+
+也就是说在创建流对象时，会创建一个内置的默认大小的缓冲区数组，通过缓冲区读写，减少系统IO次数，从而提高读写的效率。
+缓冲书写格式为BufferedXxx，按照数据类型分类：
+
+- 字节缓冲流：BufferedInputStream，BufferedOutputStream
+- 字符缓冲流：BufferedReader，BufferedWriter
+
+```java
+public class BufferedDemo {
+    public static void main(String[] args) throws FileNotFoundException {
+      	// 记录开始时间
+        long start = System.currentTimeMillis();
+		// 创建流对象
+        try (
+		 BufferedInputStream bis = new BufferedInputStream(new FileInputStream("py.exe"));
+		 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("copyPy.exe"));
+        ){
+          	// 读写数据
+            int len;
+            byte[] bytes = new byte[8*1024];
+            while ((len = bis.read(bytes)) != -1) {
+                bos.write(bytes, 0 , len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		// 记录结束时间
+        long end = System.currentTimeMillis();
+        System.out.println("缓冲流使用数组复制时间:"+(end - start)+" 毫秒");
+    }
+}
+//缓冲流使用数组复制时间:521 毫秒  
+```
+
+## 转换流
+![转换流](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/转换流.webp)
+### 字符编码与解码
+编码:字符(能看懂的)--字节(看不懂的)
+
+解码:字节(看不懂的)-->字符(能看懂的)
+### 字符集
+![字符集](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/字符集.webp)
+
+###  InputStreamReader类-----(字节流到字符流的桥梁)
+转换流java.io.InputStreamReader，是Reader的子类，从字面意思可以看出它是从字节流到字符流的桥梁。它读取字节，并使用指定的字符集将其解码为字符。它的字符集可以由名称指定，也可以接受平台的默认字符集。
+#### 构造方法
+InputStreamReader(InputStream in): 创建一个使用默认字符集的字符流。
+InputStreamReader(InputStream in, String charsetName): 创建一个指定字符集的字符流。
+```java
+public class ReaderDemo2 {
+    public static void main(String[] args) throws IOException {
+      	// 定义文件路径,文件为gbk编码
+        String FileName = "C:\\A.txt";
+      	// 创建流对象,默认UTF8编码
+        InputStreamReader isr = new InputStreamReader(new FileInputStream(FileName));
+      	// 创建流对象,指定GBK编码
+        InputStreamReader isr2 = new InputStreamReader(new FileInputStream(FileName) , "GBK");
+		// 定义变量,保存字符
+        int read;
+      	// 使用默认编码字符流读取,乱码
+        while ((read = isr.read()) != -1) {
+            System.out.print((char)read); // �����ʺ      
+        }
+        isr.close();
+      
+      	// 使用指定编码字符流读取,正常解析
+        while ((read = isr2.read()) != -1) {
+            System.out.print((char)read);// 哥敢摸屎
+        }
+        isr2.close();
+    }
+}
+```
+### OutputStreamWriter类-----(字符流到字节流的桥梁)
+转换流java.io.OutputStreamWriter ，是Writer的子类，字面看容易混淆会误以为是转为字符流，其实不然，OutputStreamWriter为从字符流到字节流的桥梁。使用指定的字符集将字符编码为字节。它的字符集可以由名称指定，也可以接受平台的默认字符集。
+```java
+public class OutputDemo {
+    public static void main(String[] args) throws IOException {
+      	// 定义文件路径
+        String FileName = "C:\\s.txt";
+      	// 创建流对象,默认UTF8编码
+        OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(FileName));
+        // 写出数据
+      	osw.write("哥敢"); // 保存为6个字节
+        osw.close();
+      	
+		// 定义文件路径
+		String FileName2 = "D:\\A.txt";
+     	// 创建流对象,指定GBK编码
+        OutputStreamWriter osw2 = new OutputStreamWriter(new FileOutputStream(FileName2),"GBK");
+        // 写出数据
+      	osw2.write("摸屎");// 保存为4个字节
+        osw2.close();
+    }
+}
+```
+## 序列化
+Java 提供了一种对象序列化的机制。用一个字节序列可以表示一个对象，该字节序列包含该对象的数据、对象的类型和对象中存储的属性等信息。字节序列写出到文件之后，相当于文件中持久保存了一个对象的信息。
+
+反之，该字节序列还可以从文件中读取回来，重构对象，对它进行反序列化。对象的数据、对象的类型和对象中存储的数据信息，都可以用来在内存中创建对象。看图理解序列化：
+![转换流](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/转换流.webp)
+
+一个对象要想序列化，必须满足两个条件:
+该类必须实现java.io.Serializable 接口，Serializable 是一个标记接口，不实现此接口的类将不会使任何状态序列化或反序列化，会抛出NotSerializableException。
+
+该类的所有属性必须是可序列化的。如果有一个属性不需要可序列化的，则该属性必须注明是瞬态的，使用transient 关键字修饰。
+
+Serializable 接口给需要序列化的类，提供了一个序列版本号。serialVersionUID 该版本号的目的在于验证序列化的对象和对应类是否版本匹配。
+```java
+public class Employee implements Serializable {
+     // 加入序列版本号
+     private static final long serialVersionUID = 1L;
+     //里面的每个属性都需要序列化
+     public String name;
+     public String address;
+}
+```
+
+## ObjectOutputStream类，ObjectInputStream类
+java.io.ObjectOutputStream 类，将Java对象的原始数据类型写出到文件,实现对象的持久存储。
+
+ObjectInputStream反序列化流，将之前使用ObjectOutputStream序列化的原始数据恢复为对象。
+```java
+public class DeserializeDemo {
+   public static void main(String [] args)   {
+        Employee e = null;
+        try {		
+             // 创建反序列化流
+             FileInputStream fileIn = new FileInputStream("employee.txt");
+             ObjectInputStream in = new ObjectInputStream(fileIn);
+             // 读取一个对象
+             e = (Employee) in.readObject();
+             // 释放资源
+             in.close();
+             fileIn.close();
+        }catch(IOException i) {
+             // 捕获其他异常
+             i.printStackTrace();
+             return;
+        }catch(ClassNotFoundException c)  {
+        	// 捕获类找不到异常
+             System.out.println("Employee class not found");
+             c.printStackTrace();
+             return;
+        }
+        // 无异常,直接打印输出
+        System.out.println("Name: " + e.name);	// zhangsan
+        System.out.println("Address: " + e.address); // beiqinglu
+        System.out.println("age: " + e.age); // 0
+    }
+}
+```
