@@ -1,12 +1,16 @@
 ---
-title: Java核心技术卷知识
+title: Java基础知识扫盲
 date: 2022-01-01
+categories: 
+- 后端
 tags:
-- 随笔
+- Java
+- 读书笔记
+- 查漏补缺
 ---
 ## 面向对象程序设计
 1. 创建一个数字数组时，所有元素都初始化为0。boolean数组的元素会初始化为false。对象数组的元素则初始化为一个特殊值null，表示这些元素(还)未存放任何元素。
-
+<!-- more -->
 2. 增强for循环 for(variavle : collection),其中collection这一集合表达式必须是一个数组或者是一个实现了Iterable接口的类对象
 
 3. Math.random方法返回一个0到1之间(包含0、不包含1)的随机浮点数。用n乘以这个浮点数，就可以得到从0到n-1之间的一个随机数。
@@ -368,19 +372,24 @@ TreeSet:会自动对插入的数据实现排序，定制排序需要使用比较
 
 #### Map结构的理解：
 Map中的key：无序的、不可重复的，使用set存储所有的key
+
 Map中的value：无序的，可重复的，使用collection存储所有的value
+
 一个键值对：key-value构成了一个Entry对象
+
 Map中的entry：无序的，不可重复的，使用set存储所有的entry
 - HashMap的底层实现原理，以jdk7为例：在实例化以后，底层创建了长度是16的一维数组Entry[] table,首先，调用key1所在类的hashCode()计算key1哈希值，此哈希值经过某种算法计算以后，得到在Entry数组中的存放位置。
-如果此位置上的数据为空，此时的key1-value.添加成功。
+如果此位置上的数据为空，此时的key1-value添加成功。
 如果此位置上的数据不为空，（意味着此位置上存在一个或多个数据（以链表形式存在）），比较key1和已经存在的一个或多个数据的哈希值：
 如果key1的哈希值与已经存在的数据的哈希值都不相同，此时key1-value1添加成功
 如果key1的哈希值和已经存在的某一个数据(key2-value2)的哈希值相同，继续比较：调用key1所在类的equals(key2
 如果equals()返回false:此时key1-value1添加成功。
 如果equals()返回true:使用value1替换value2。
 在不断添加的过程中，会涉及到扩容问题，默认的扩容方式：扩容到原来容量的2倍，并将所有数据复制过来
-**jdk8的HashMap相对于jdk7底层实现的不同**
+
+**jdk8的HashMap相对于jdk7底层实现的不同:**
 - 1. new HashMap():底层没有创建一个长度为16的数组
+  
 - 2. jdk8底层的数组是：Node[], 而非Entry[]
 - 3. 首次调用put()方法时，底层创建长度为16的数组
 - 4. jdk7底层结构只有：数组+链表,jdk8中底层结构：数组+链表+红黑树。
@@ -713,3 +722,37 @@ public class DeserializeDemo {
     }
 }
 ```
+
+## stream api
+### stream的介绍
+stream的三个步骤：
+- 创建stream：一个数据源，获取一个流
+- 中间操作：一个中间操作链，对数据源的数据进行处理
+- 终止操作：一旦执行终止操作，就执行中间操作链，并产生结果，之后不会再使用
+
+注意：
+- stream 自己不会存储数据
+- stream 不会改变源对象，相反，他们会返回一个持有结果的新的stream
+- stream 操作是延迟执行的
+
+
+### stream的中间操作
+#### 1.筛选和切片
+- filter(Predicate p)————接收Lambda，从流中排除某些元素
+- limit(n)————截断流，使元素不超过给定数量
+- skip(n)————跳过元素，返回一个跳过前n个元素的流，如果没有n个，则返回一个空流
+- distinct()————筛选，通过流所生成的元素的hashcode()和equals()去除重复元素
+
+#### 2.映射
+- map(Function f)————接收一个函数作为参数，将元素转为其他形式或提取信息，该函数会应用到每个元素上，并将其映射成新的元素
+- flatMap(Function f)————接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有的流连接成一个流
+
+#### 3.排序
+- sorted()————自然排序
+- sorted(Compator com)————定制排序
+
+### stream的终止操作
+#### 匹配和查找
+#### 规约
+#### 收集
+collect(Collector c),里面调用Collectors工具类里面封装的方法

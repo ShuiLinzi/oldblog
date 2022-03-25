@@ -17,8 +17,10 @@ module.exports = {
     ["script", {
       "language": "javascript",
       "type": "text/javascript",
-      "src": "https://cdn.staticfile.org/jquery/1.7.2/jquery.min.js"
+      "src": "https://cdn.staticfile.org/jquery/1.7.2/jquery.min.js",
+      "src": "https://cdn.jsdelivr.net/npm/artitalk"
     }]
+
   ],
 
   //主题配置

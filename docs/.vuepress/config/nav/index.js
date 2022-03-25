@@ -19,5 +19,6 @@ module.exports = [
             },]
     },
     {text: '时间线', link: '/timeline/', icon: 'reco-date'},
+    {text: '动态', link: '/shuoshuo/', icon: 'reco-eye'},
     {text: '关于我', link: '/about/', icon: 'reco-message'}
 ]
