@@ -16,6 +16,7 @@ export default {
           appId: 'oAOIFLiDIAFpx0jKSmvqSDMz-MdYXbMMI',
           appKey: '9GanFMWpwJcdYXRUbYBo3oi9',
           shuoPla: '随风飞',
+          per: 7,
           bgImg: 'https://cdn.jsdelivr.net/gh/drew233/cdn/20200409110727.webp',
           atEmoji: {
               huaji: 'https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/smilies/icon_huaji.gif',

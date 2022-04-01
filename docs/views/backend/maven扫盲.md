@@ -1,3 +1,12 @@
+---
+title: maven扫盲
+date: 2022-03-26
+tags: 
+- 扫盲
+- java
+categories:
+- "后端"
+---
 ## pom文件扫盲
 ```xml
 <!-- 取值jar：生成jar包 -->
@@ -48,4 +57,32 @@ provided：在开发过程中需要用到的"服务器上的 jar 包"通常以 p
                 <version>${pagehelper-starter.version}</version>
         </dependency>
 </dependencyManagement>
+```
+## build标签扫盲
+生成微服务可运行的jar包，应用微服务打包插件，可以以spring boot微服务形式直接运行jar包
+- 当前微服务本身的代码
+- 当前微服务所依赖的jar包
+- 内置Tomcat
+- 与jar包可以通过java -jar方式直接启动微服务
+
+仅靠Maven自身的构建能力是不够的，所以要通过build标签引入下面的插件 
+
+
+```xml
+ <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 ```

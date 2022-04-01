@@ -38,6 +38,7 @@ module.exports = {
                 'backend/redis',
                 'backend/springboot',
                 'backend/Java核心技术卷',
+                'backend/maven扫盲',
             ]
         },
         {
