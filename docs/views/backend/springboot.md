@@ -136,6 +136,30 @@ http://localhost:8080/test/person?format=xml，转成xml类型的数据，开启
 ```
 
 ## 拦截器
+### Servlet原生过滤器
+![拦截器链](https://cdn.jsdelivr.net/gh/ShuiLinzi/blog-image@master/后端/拦截器链.webp)
+- 链接过滤器链的操作流程
+  - 如果放行之后不想让线程进行执行后面的代码，则需要return，在过滤器里面判断登录和拦截资源
+```
+@WebFilter()//拦截路径,对什么进行拦截
+public class Filter implements javax.servlet.Filter  {
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        javax.servlet.Filter.super.init(filterConfig);
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        
+    }
+
+    @Override
+    public void destroy() {
+        javax.servlet.Filter.super.destroy();
+    }
+}
+```
+
 ### HandlerInterceptor接口
 实现拦截器的两个步骤
 1. 编写一个拦截器HandlerInterceptor接口，**Interceptor是spring家定义的接口，可以实现自动注入@Autowired**
